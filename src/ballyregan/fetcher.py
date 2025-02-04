@@ -43,8 +43,8 @@ class ProxyFetcher:
     debug: bool = False
 
     def __post_init__(self) -> None:
-        if not has_internet_connection():
-            raise NoInternetConnection
+        #if not has_internet_connection(): # commented out because sometimes a firewall that I can't control prevents this from working
+        #   raise NoInternetConnection
 
         if not self._proxy_filterer:
             self._proxy_filterer = ProxyFilterer()
