@@ -1,5 +1,6 @@
 from typing import List
 from dataclasses import dataclass
+from io import StringIO # added since read_html is depricated
 
 import pandas
 from requests.exceptions import ConnectionError
@@ -22,7 +23,8 @@ class FreeProxyListProvider(IProxyProvider):
             if not proxies_response.ok:
                 raise ProxyGatherException
                 
-            proxies_table = pandas.read_html(proxies_response.text)[0]
+            #proxies_table = pandas.read_html(proxies_response.text)[0] # added "StringIO" since read_html is depricated
+            proxies_table = pandas.read_html(StringIO(proxies_response.text))[0] # added "StringIO" since read_html is depricated
 
         except (IndexError, ValueError, ConnectionError):
             raise ProxyGatherException
