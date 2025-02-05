@@ -106,7 +106,7 @@ class ProxyValidator:
         )
         try:
             #await asyncio.gather(*coroutines)
-            await asyncio.gather_with_concurrency(100, *coroutines) # prevent error "ValueError: too many file descriptors in select()"
+            await gather_with_concurrency(100, *coroutines) # prevent error "ValueError: too many file descriptors in select()"
         except Full:
             pass
 
