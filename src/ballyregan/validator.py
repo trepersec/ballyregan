@@ -104,6 +104,14 @@ class ProxyValidator:
             proxies=proxies,
             limit=limit
         )
+        # Added this portion here to prevent error "ValueError: too many file descriptors in select()"
+        async def gather_with_concurrency(n, *coros):
+            semaphore = asyncio.Semaphore(n)
+        
+            async def sem_coro(coro):
+                async with semaphore:
+                    return await coro
+            return await asyncio.gather(*(sem_coro(c) for c in coros))
         try:
             #await asyncio.gather(*coroutines)
             await gather_with_concurrency(100, *coroutines) # prevent error "ValueError: too many file descriptors in select()"
